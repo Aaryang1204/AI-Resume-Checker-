@@ -39,4 +39,24 @@ public class BaseResponse<T> {
                 .data(null)
                 .build();
     }
+
+    public static <T> BaseResponse<T> badRequest(String message) {
+        return error(400, message);
+    }
+
+    public static <T> BaseResponse<T> unauthorized(String message) {
+        return error(401, message);
+    }
+
+    public static <T> BaseResponse<T> forbidden(String message) {
+        return error(403, message);
+    }
+
+    public static <T> BaseResponse<T> notFound(String message) {
+        return error(404, message);
+    }
+
+    public static <T> BaseResponse<T> conflict(String message) {
+        return error(409, message);
+    }
 }

@@ -13,7 +13,7 @@ public class UserRegisterRequest {
     @NotBlank(message = "Full name is required")
     private String fullName;
  
-    @Schema(description = "Email address — used as login username", example = "john@example.com")
+    @Schema(description = "Email address to register", example = "john@example.com")
     @NotBlank(message = "Email is required")
     @Email(message = "Enter a valid email address")
     private String email;
