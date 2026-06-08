@@ -90,6 +90,8 @@ public class SecurityConfig {
              */
             .oauth2Login(oauth2 -> oauth2
                 .successHandler(oAuth2SuccessHandler)
+                // TODO: Add failure handler — on OAuth2 error, redirect to frontend login-failed screen
+                // e.g. .failureHandler((req, res, ex) -> res.sendRedirect("http://localhost:3000/login?error"))
             )
 
             /*
