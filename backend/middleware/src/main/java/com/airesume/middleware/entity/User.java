@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,21 +34,26 @@ import lombok.Setter;
 //   Without schema, JPA defaults to "public" and won't find our table
 @Entity
 @Table(name = "users", schema = "ra")
-// Lombok: generates getters, setters, constructors, and builder pattern at compile time
-// @Builder lets you do: User.builder().email("a@b.com").role(Role.CANDIDATE).build()
-// @NoArgsConstructor is required by JPA internally to create instances via reflection
+// Lombok: generates getters, setters, constructors, and builder pattern at
+// compile time
+// @Builder lets you do:
+// User.builder().email("a@b.com").role(Role.CANDIDATE).build()
+// @NoArgsConstructor is required by JPA internally to create instances via
+// reflection
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-// UserDetails is a Spring Security interface — implementing it here means Spring Security
-// can use our User object directly for authentication without any extra wrapper class
+// UserDetails is a Spring Security interface — implementing it here means
+// Spring Security
+// can use our User object directly for authentication without any extra wrapper
+// class
 public class User implements UserDetails {
 
     // UUID instead of Long auto-increment:
-    //   - doesn't expose how many users you have (id=1,2,3 is a security leak)
-    //   - can be generated without a DB roundtrip
+    // - doesn't expose how many users you have (id=1,2,3 is a security leak)
+    // - can be generated without a DB roundtrip
     // @UuidGenerator is the Hibernate 6 modern way to auto-generate UUIDs on INSERT
     // updatable = false — primary keys should never change after creation
     @Id
@@ -69,21 +75,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String fullName;
 
-    // @Enumerated(EnumType.STRING) stores "CANDIDATE" / "RECRUITER" / "ADMIN" as text
-    // instead of integers 0, 1, 2 — safer because reordering the enum won't silently
-    // corrupt existing data, and the DB column is readable when queried directly
-    // columnDefinition maps to the native PostgreSQL enum type we created in the SQL script
-    // so the DB enforces valid values at the type level, not just via a CHECK constraint
+    // Role stays as Java enum with @Enumerated(EnumType.STRING)
+    // Works perfectly with plain VARCHAR column in PostgreSQL
+    // Stores "CANDIDATE" / "RECRUITER" / "ADMIN" as readable text
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "ra.user_role")
+    @Column(nullable = false) // removed columnDefinition — no pg enum dependency
     private Role role;
 
-    // Tracks how the user signed up: "local" (email+password) or "google" (OAuth2)
-    // Used by OAuth2SuccessHandler to distinguish account types
-    // @Builder.Default is required because Lombok's @Builder ignores field initializers —
-    // without it, builder().build() would set provider = null instead of "local"
-    // columnDefinition maps to the native PostgreSQL enum type from the SQL script
-    @Column(nullable = false, columnDefinition = "ra.auth_provider")
+    // Provider stays as plain String
+    // "local", "google", "github" — simple, flexible, no enum needed
+    @Column(nullable = false)
     @Builder.Default
     private String provider = "local";
 
@@ -111,24 +112,43 @@ public class User implements UserDetails {
         updatedAt = LocalDateTime.now();
     }
 
-
-    // --- UserDetails interface — Spring Security calls these during authentication ---
+    // --- UserDetails interface — Spring Security calls these during authentication
+    // ---
 
     // Returns the roles this user has — Spring expects the "ROLE_" prefix,
-    // so CANDIDATE becomes "ROLE_CANDIDATE", which is what .hasRole("CANDIDATE") checks against
+    // so CANDIDATE becomes "ROLE_CANDIDATE", which is what .hasRole("CANDIDATE")
+    // checks against
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
-    // Spring Security uses this as the unique identifier for the user — we use email
+    // Spring Security uses this as the unique identifier for the user — we use
+    // email
     @Override
-    public String getUsername() { return email; }
+    public String getUsername() {
+        return email;
+    }
 
     // These four return true for now — add real logic later if you need
     // account lockout, password expiry, or account suspension features
-    @Override public boolean isAccountNonExpired()     { return true; }
-    @Override public boolean isAccountNonLocked()      { return true; }
-    @Override public boolean isCredentialsNonExpired() { return true; }
-    @Override public boolean isEnabled()               { return true; }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

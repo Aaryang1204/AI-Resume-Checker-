@@ -1,4 +1,4 @@
-package com.airesume.middleware.util;
+package com.airesume.middleware.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

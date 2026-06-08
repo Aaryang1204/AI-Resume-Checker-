@@ -54,6 +54,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // Now user IS a UserDetails — same generateToken() call as local login
             String token = jwtUtil.generateToken(user, user.getId());
 
+            // Instead of redirect with token in URL
+            // Cookie cookie = new Cookie("accessToken", token);
+            // cookie.setHttpOnly(true);
+            // cookie.setSecure(true);   // HTTPS only in prod
+            // cookie.setPath("/");
+            // cookie.setMaxAge(900);    // 15 min
+            // response.addCookie(cookie);
+            // getRedirectStrategy().sendRedirect(request, response,
+            //     "http://localhost:3000/dashboard");
+
             // Redirect frontend with token as query param
             getRedirectStrategy().sendRedirect(request, response,
                 "http://localhost:3000/oauth2/success?token=" + token);
