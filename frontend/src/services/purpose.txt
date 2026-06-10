@@ -1,0 +1,16 @@
+# Services Folder
+
+Purpose: Contains functions responsible for communicating with external APIs and handling data-related operations.
+
+Examples:
+
+- Authentication Service
+- Resume Analysis Service
+- User Service
+- API Configuration
+
+Guidelines:
+
+- Keep API calls and data-fetching logic separate from UI components.
+- Centralize backend communication for easier maintenance.
+- Return clean, reusable data to the rest of the application.

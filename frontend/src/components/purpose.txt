@@ -1,0 +1,18 @@
+# Components Folder
+
+Purpose: Contains reusable UI components that can be shared across multiple pages and features of the application.
+
+Examples:
+
+- Buttons
+- Navbar
+- Footer
+- Modal
+- File Upload Component
+- Loading Spinner
+
+Guidelines:
+
+- Keep components reusable and independent.
+- Avoid placing page-specific business logic here.
+- Design components to be configurable through props.

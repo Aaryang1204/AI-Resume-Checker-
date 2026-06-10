@@ -1,0 +1,16 @@
+# Contexts Folder
+
+Purpose: Contains React Context providers and related logic used to manage and share global application state across multiple components.
+
+Examples:
+
+- Authentication Context
+- User Context
+- Resume Analysis Context
+- Theme Context
+
+Guidelines:
+
+- Store only data that needs to be accessed by multiple parts of the application.
+- Avoid placing page-specific or temporary state here.
+- Keep context logic focused and easy to maintain.
