@@ -1,5 +1,5 @@
-React Router        -- Handles navigation between different pages (e.g., Home, Upload Resume, Results) without reloading the website.
-Axios               -- Used to send HTTP requests to the backend APIs, such as uploading resumes and fetching AI analysis results.
-Tailwind CSS        -- A utility-first CSS framework that helps create responsive and modern UI designs quickly without writing much custom CSS.
-React Hot Toast     -- Displays user-friendly notification messages such as success, error, warning, and loading alerts.
-Context API	        -- Provides a way to share data and state across multiple components without passing props through every level of the component tree.
+react-router-dom                    -- Handles navigation between different pages (e.g., Home, Upload Resume, Results) without reloading the website.
+axios                               -- Used to send HTTP requests to the backend APIs, such as uploading resumes and fetching AI analysis results.
+tailwindcss @tailwindcss/vite       -- A utility-first CSS framework that helps create responsive and modern UI designs quickly without writing much custom CSS.
+react-hot-toast                     -- Displays user-friendly notification messages such as success, error, warning, and loading alerts.
+Context API	                        -- Provides a way to share data and state across multiple components without passing props through every level of the component tree.
