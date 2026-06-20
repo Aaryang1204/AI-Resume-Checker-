@@ -4,7 +4,7 @@ Purpose: Contains the main screens of the application that are mapped to routes 
 
 Examples:
 
-- Home Page
+- Home Page / Landing Page ✅
 - Resume Upload Page
 - Analysis Results Page
 - Login Page

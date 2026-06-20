@@ -5,9 +5,8 @@ Purpose: Contains React Context providers and related logic used to manage and s
 Examples:
 
 - Authentication Context
-- User Context
 - Resume Analysis Context
-- Theme Context
+- Theme Context ( Future Scope )
 
 Guidelines:
 
